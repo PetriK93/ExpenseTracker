@@ -100,6 +100,7 @@
 }
 
 .input_group {
+  width: 400px;
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
@@ -114,11 +115,12 @@ label {
 
 input {
   font-size: 1.2rem;
-  width: 395px;
-  height: 25px;
+  width: 400px;
+  height: 35px;
   border: 2px solid grey;
   border-radius: 5px;
   outline: none;
+  box-sizing: border-box;
 }
 
 input:focus {

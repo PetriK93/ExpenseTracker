@@ -30,8 +30,13 @@ const Expenses = () => {
         <h2 className={styles.sub_section}>Add new transaction</h2>
       </div>
       <div className={styles.input_group}>
-        <label htmlFor="description">Description</label>
-        <input type="text" id="description" name="description" />
+        <label htmlFor="description">Description of product or service</label>
+        <input
+          type="text"
+          id="description"
+          name="description"
+          spellCheck="false"
+        />
       </div>
       <div className={styles.input_group}>
         <label htmlFor="amount">Amount</label>
