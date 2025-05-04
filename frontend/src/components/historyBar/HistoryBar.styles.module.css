@@ -13,6 +13,7 @@
   padding: 8px 0;
   font-size: 1.1rem;
   transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  user-select: none;
 }
 
 .history_bar:hover {
@@ -28,4 +29,12 @@
 .payment_amount {
   margin: 0 10px;
   font-size: 1.1rem;
+}
+
+.positive {
+  background-color: rgb(120, 240, 120);
+}
+
+.negative {
+  background-color: rgb(241, 116, 116);
 }

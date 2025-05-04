@@ -1,10 +1,14 @@
 import styles from "./HistoryBar.styles.module.css";
 
-const HistoryBar = () => {
+const HistoryBar = ({ description, amount }) => {
   return (
-    <div className={styles.history_bar}>
-      <p className={styles.payment}>Payment</p>
-      <p className={styles.payment_amount}>150€</p>
+    <div
+      className={`${styles.history_bar} ${
+        amount.startsWith("-") ? styles.negative : styles.positive
+      }`}
+    >
+      <p className={styles.payment}>{description}</p>
+      <p className={styles.payment_amount}>{amount}€</p>
     </div>
   );
 };
