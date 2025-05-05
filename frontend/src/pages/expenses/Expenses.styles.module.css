@@ -151,3 +151,8 @@ input:focus {
   flex-direction: row;
   gap: 5px;
 }
+
+.empty_message {
+  font-size: 1.6rem;
+  font-style: italic;
+}

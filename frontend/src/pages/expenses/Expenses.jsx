@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const Expenses = () => {
   // useStates
+  const [isEmpty, setIsEmpty] = useState(true);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [transactions, setTransactions] = useState([]);
@@ -145,12 +146,14 @@ const Expenses = () => {
       );
 
       // Reset the input fields
+      setIsEmpty(false);
       setDescription("");
       setAmount("");
     }
   };
 
   const handleReset = (e) => {
+    setIsEmpty(true);
     setDescription("");
     setAmount("");
     setTransactions([]);
@@ -216,13 +219,19 @@ const Expenses = () => {
         <h2 className={styles.sub_section}>History 📜</h2>
       </div>
       <div className={styles.history_container}>
-        {[...transactions].reverse().map((tx) => (
-          <HistoryBar
-            key={tx.id}
-            description={tx.description}
-            amount={tx.amount}
-          />
-        ))}
+        {isEmpty ? (
+          <p className={styles.empty_message}>No transactions yet</p>
+        ) : (
+          [...transactions]
+            .reverse()
+            .map((tx) => (
+              <HistoryBar
+                key={tx.id}
+                description={tx.description}
+                amount={tx.amount}
+              />
+            ))
+        )}
       </div>
       <div className={styles.content_container}>
         <h2 className={styles.sub_section}>Add a new transaction ➕</h2>
