@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "./Expenses.styles.module.css";
 import BigButton from "../../components/bigButton/BigButton";
+import SmallButton from "../../components/smallButton/SmallButton";
 import HistoryBar from "../../components/historyBar/HistoryBar";
 import { v4 as uuidv4 } from "uuid";
 
@@ -9,13 +10,52 @@ const Expenses = () => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [transactions, setTransactions] = useState([]);
-  const totalBalance = transactions
-    .reduce((total, tx) => {
-      // Replace comma with period for valid number formatting, then limit to two decimals
-      const numericAmount = parseFloat(tx.amount.toString().replace(",", "."));
-      return total + numericAmount;
-    }, 0)
-    .toFixed(2); // Round the result to two decimal places
+  const totalBalance = Number(
+    transactions
+      .reduce((total, tx) => {
+        const numericAmount = parseFloat(
+          tx.amount.toString().replace(",", ".")
+        );
+        return total + numericAmount;
+      }, 0)
+      .toFixed(2)
+  );
+
+  let income = 0;
+  let expenses = 0;
+
+  const reversedTransactions = [...transactions].reverse();
+
+  reversedTransactions.forEach((tx) => {
+    const amount = parseFloat(tx.amount.replace(",", ".")); // convert "12,50" → 12.5
+
+    if (amount >= 0) {
+      income += amount;
+    } else {
+      expenses += amount;
+    }
+  });
+
+  const formattedIncome = income.toLocaleString("fi-FI", {
+    style: "currency",
+    currency: "EUR",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  const formattedExpenses = expenses.toLocaleString("fi-FI", {
+    style: "currency",
+    currency: "EUR",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  const formattedTotalBalance = totalBalance.toLocaleString("fi-FI", {
+    style: "currency",
+    currency: "EUR",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
   // Event handlers
   const handleDescriptionChange = (e) => {
@@ -110,32 +150,73 @@ const Expenses = () => {
     }
   };
 
+  const handleReset = (e) => {
+    setDescription("");
+    setAmount("");
+    setTransactions([]);
+  };
+
+  const handleSaveData = () => {
+    if (transactions.length === 0) {
+      alert("No transactions to save.");
+      return;
+    }
+
+    // Header
+    let content =
+      "========================== \n Description & Amount\n==========================\n\n";
+
+    // Transactions
+    content += transactions
+      .map((tx) => `${tx.description}: ${tx.amount} €`)
+      .join("\n");
+
+    // Summary
+    content += `\n\nTotal Income: ${formattedIncome}\n`;
+    content += `Total Expenses: ${formattedExpenses}\n`;
+    content += `Total Balance: ${formattedTotalBalance}`;
+
+    // Create a Blob and trigger download
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    const timestamp = new Date().toISOString().split("T")[0];
+    link.href = url;
+    link.download = `transactions-${timestamp}.txt`;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className={styles.main_container}>
       <h1 className={styles.title}>Expense Tracker</h1>
       <div className={styles.balance_container}>
-        <h2 className={styles.balance}>Your balance:</h2>
+        <h2 className={styles.balance}>Your balance 💰</h2>
         <p className={styles.balance_amount}>
           {totalBalance === "0.00" || totalBalance == null
-            ? "Add transaction to get started"
-            : `${totalBalance}€`}
+            ? "0,00€"
+            : formattedTotalBalance}
         </p>
       </div>
       <div className={styles.income_expense_container}>
         <div className={styles.income_container}>
           <h3 className={styles.income_expense}>Income</h3>
-          <p className={styles.income_amount}>500€</p>
+          <p className={styles.income_amount}>{formattedIncome}</p>
         </div>
         <div className={styles.expense_container}>
           <h3 className={styles.income_expense}>Expense</h3>
-          <p className={styles.expense_amount}>200€</p>
+          <p className={styles.expense_amount}>{formattedExpenses}</p>
         </div>
       </div>
       <div className={styles.content_container}>
-        <h2 className={styles.sub_section}>History</h2>
+        <h2 className={styles.sub_section}>History 📜</h2>
       </div>
       <div className={styles.history_container}>
-        {transactions.map((tx) => (
+        {[...transactions].reverse().map((tx) => (
           <HistoryBar
             key={tx.id}
             description={tx.description}
@@ -144,7 +225,7 @@ const Expenses = () => {
         ))}
       </div>
       <div className={styles.content_container}>
-        <h2 className={styles.sub_section}>Add a new transaction</h2>
+        <h2 className={styles.sub_section}>Add a new transaction ➕</h2>
       </div>
       <div className={styles.input_group}>
         <label htmlFor="description">
@@ -174,7 +255,11 @@ const Expenses = () => {
           placeholder="Example: -550€"
         />
       </div>
-      <BigButton onClick={handleAddTransaction}>Add transaction</BigButton>
+      <BigButton onClick={handleAddTransaction}>💸 Add transaction</BigButton>
+      <div className={styles.small_button_container}>
+        <SmallButton onClick={handleReset}>🔁 Reset history</SmallButton>
+        <SmallButton onClick={handleSaveData}>💾 Save as .txt</SmallButton>
+      </div>
     </div>
   );
 };
