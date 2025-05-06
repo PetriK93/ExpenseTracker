@@ -61,7 +61,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 110px;
+  gap: 50px;
   width: 100%;
   height: 12%;
   color: black;
@@ -137,11 +137,11 @@ input:focus {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 439px;
+  width: 448px;
   height: 400px;
   gap: 5px;
   overflow-y: auto;
-  margin-bottom: -28px;
+  margin-bottom: -29px;
 }
 
 .small_button_container {
@@ -155,4 +155,50 @@ input:focus {
 .empty_message {
   font-size: 1.6rem;
   font-style: italic;
+}
+
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal_content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 1001;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  font-size: 1.2rem;
+  user-select: none;
+}
+
+.modal_buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+.modal_buttons button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #0084ff;
+  color: white;
+  font-weight: bold;
+}
+
+.modal_buttons button:last-child {
+  background-color: #aaa;
 }

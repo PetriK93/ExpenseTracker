@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const Expenses = () => {
   // useStates
+  const [showConfirm, setShowConfirm] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
@@ -152,11 +153,16 @@ const Expenses = () => {
     }
   };
 
-  const handleReset = (e) => {
+  const confirmReset = () => {
     setIsEmpty(true);
     setDescription("");
     setAmount("");
     setTransactions([]);
+    setShowConfirm(false);
+  };
+
+  const cancelReset = () => {
+    setShowConfirm(false);
   };
 
   const handleSaveData = () => {
@@ -222,15 +228,22 @@ const Expenses = () => {
         {isEmpty ? (
           <p className={styles.empty_message}>No transactions yet</p>
         ) : (
-          [...transactions]
-            .reverse()
-            .map((tx) => (
-              <HistoryBar
-                key={tx.id}
-                description={tx.description}
-                amount={tx.amount}
-              />
-            ))
+          [...transactions].reverse().map((tx) => (
+            <HistoryBar
+              key={tx.id}
+              description={tx.description}
+              amount={tx.amount}
+              onDelete={() => {
+                const updatedTransactions = transactions.filter(
+                  (item) => item.id !== tx.id
+                );
+                setTransactions(updatedTransactions);
+                if (updatedTransactions.length === 0) {
+                  setIsEmpty(true);
+                }
+              }}
+            />
+          ))
         )}
       </div>
       <div className={styles.content_container}>
@@ -238,7 +251,7 @@ const Expenses = () => {
       </div>
       <div className={styles.input_group}>
         <label htmlFor="description">
-          Description of product or service<br></br>(20-character limit)
+          Description of product or service<br></br>(17-character limit)
         </label>
         <input
           value={description}
@@ -246,9 +259,9 @@ const Expenses = () => {
           id="description"
           name="description"
           spellCheck="false"
-          maxLength={20}
+          maxLength={17}
           onChange={handleDescriptionChange}
-          placeholder="Example: Food for celebration"
+          placeholder="Example: Birthday gift"
         />
       </div>
       <div className={styles.input_group}>
@@ -261,13 +274,26 @@ const Expenses = () => {
           id="amount"
           name="amount"
           onChange={handleAmountChange}
-          placeholder="Example: -550€"
+          placeholder="Example: -550,45€"
         />
       </div>
       <BigButton onClick={handleAddTransaction}>💸 Add transaction</BigButton>
       <div className={styles.small_button_container}>
-        <SmallButton onClick={handleReset}>🔁 Reset history</SmallButton>
+        <SmallButton onClick={() => setShowConfirm(true)}>
+          🔁 Reset history
+        </SmallButton>
         <SmallButton onClick={handleSaveData}>💾 Save as .txt</SmallButton>
+        {showConfirm && (
+          <div className={styles.modal_overlay}>
+            <div className={styles.modal_content}>
+              <p>Are you sure you want to reset all transaction history?</p>
+              <div className={styles.modal_buttons}>
+                <button onClick={confirmReset}>Yes, reset</button>
+                <button onClick={cancelReset}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
