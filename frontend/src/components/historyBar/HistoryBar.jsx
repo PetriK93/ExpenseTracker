@@ -7,10 +7,12 @@ const HistoryBar = ({ description, amount, onDelete }) => {
         amount.startsWith("-") ? styles.negative : styles.positive
       }`}
     >
-      <span className={styles.delete_button} onClick={onDelete}>
-        ❌
-      </span>
-      <p className={styles.payment}>{description}</p>
+      <div className={styles.left_group}>
+        <span className={styles.delete_button} onClick={onDelete}>
+          ❌
+        </span>
+        <p className={styles.payment}>{description}</p>
+      </div>
       <p className={styles.payment_amount}>{amount}€</p>
     </div>
   );

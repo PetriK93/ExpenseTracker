@@ -21,6 +21,12 @@
   box-shadow: 0 0 6px #4b0082;
 }
 
+.left_group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .payment {
   margin: 0 10px;
   font-size: 1.1rem;

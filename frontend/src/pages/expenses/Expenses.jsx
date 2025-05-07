@@ -4,6 +4,7 @@ import BigButton from "../../components/bigButton/BigButton";
 import SmallButton from "../../components/smallButton/SmallButton";
 import HistoryBar from "../../components/historyBar/HistoryBar";
 import { v4 as uuidv4 } from "uuid";
+import logo from "../../assets/expense_tracker_logo.png";
 
 const Expenses = () => {
   // useStates
@@ -26,9 +27,7 @@ const Expenses = () => {
   let income = 0;
   let expenses = 0;
 
-  const reversedTransactions = [...transactions].reverse();
-
-  reversedTransactions.forEach((tx) => {
+  transactions.forEach((tx) => {
     const amount = parseFloat(tx.amount.replace(",", ".")); // convert "12,50" → 12.5
 
     if (amount >= 0) {
@@ -38,26 +37,26 @@ const Expenses = () => {
     }
   });
 
-  const formattedIncome = income.toLocaleString("fi-FI", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  const formatCurrency = (amount) => {
+    const abs = Math.abs(amount);
 
-  const formattedExpenses = expenses.toLocaleString("fi-FI", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+    // Shorten for large numbers
+    if (abs >= 1e12) return (amount / 1e12).toFixed(2) + "T€"; // For Trillions
+    if (abs >= 1e9) return (amount / 1e9).toFixed(2) + "B€"; // For Billions
+    if (abs >= 1e6) return (amount / 1e6).toFixed(2) + "M€"; // For Millions
 
-  const formattedTotalBalance = totalBalance.toLocaleString("fi-FI", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+    // Default formatting for smaller amounts
+    return amount.toLocaleString("fi-FI", {
+      style: "currency",
+      currency: "EUR",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
+  const formattedIncome = formatCurrency(income);
+  const formattedExpenses = formatCurrency(expenses);
+  const formattedTotalBalance = formatCurrency(totalBalance);
 
   // Event handlers
   const handleDescriptionChange = (e) => {
@@ -202,12 +201,12 @@ const Expenses = () => {
 
   return (
     <div className={styles.main_container}>
-      <h1 className={styles.title}>Expense Tracker</h1>
+      <img src={logo} alt="Logo" className={styles.logo} />
       <div className={styles.balance_container}>
         <h2 className={styles.balance}>Your balance 💰</h2>
         <p className={styles.balance_amount}>
-          {totalBalance === "0.00" || totalBalance == null
-            ? "0,00€"
+          {totalBalance === 0 || totalBalance == null
+            ? "0,00 €"
             : formattedTotalBalance}
         </p>
       </div>
@@ -251,7 +250,7 @@ const Expenses = () => {
       </div>
       <div className={styles.input_group}>
         <label htmlFor="description">
-          Description of product or service<br></br>(17-character limit)
+          Description of product or service<br></br>(20-character limit)
         </label>
         <input
           value={description}
@@ -259,7 +258,7 @@ const Expenses = () => {
           id="description"
           name="description"
           spellCheck="false"
-          maxLength={17}
+          maxLength={20}
           onChange={handleDescriptionChange}
           placeholder="Example: Birthday gift"
         />
