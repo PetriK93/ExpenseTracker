@@ -88,7 +88,7 @@ const Expenses = () => {
     }
 
     if (finalAmount.startsWith("-,")) {
-      console.log("Invalid transaction: Amount cannot start with '-,'.");
+      console.log("Invalid transaction: Amount cannot start with '-,'");
       return; // Exit the function without adding the transaction
     }
 
@@ -109,21 +109,6 @@ const Expenses = () => {
     // If there's a comma and only one digit after it, add a zero
     if (finalAmount.includes(",") && finalAmount.split(",")[1].length === 1) {
       finalAmount = finalAmount + "0"; // Add 0 after the decimal
-    }
-
-    // Check for invalid cases
-    if (
-      finalAmount === "-" ||
-      finalAmount === "," ||
-      finalAmount === "0" ||
-      finalAmount === "-0" ||
-      finalAmount === "-0,00" ||
-      finalAmount === "0,00"
-    ) {
-      console.log(
-        "Invalid transaction: Amount cannot be just '-', ',', '0', '0,0', '0,00', '-0' '-0,0' or '-0,00'."
-      );
-      return; // Exit the function without adding the transaction
     }
 
     if (finalDescription && amount) {
@@ -203,7 +188,7 @@ const Expenses = () => {
     <div className={styles.main_container}>
       <img src={logo} alt="Logo" className={styles.logo} />
       <div className={styles.balance_container}>
-        <h2 className={styles.balance}>Your balance 💰</h2>
+        <h2 className={styles.balance}>Your Balance 💰</h2>
         <p className={styles.balance_amount}>
           {totalBalance === 0 || totalBalance == null
             ? "0,00 €"
@@ -246,7 +231,7 @@ const Expenses = () => {
         )}
       </div>
       <div className={styles.content_container}>
-        <h2 className={styles.sub_section}>Add a new transaction ➕</h2>
+        <h2 className={styles.sub_section}>Add Transaction ➕</h2>
       </div>
       <div className={styles.input_group}>
         <label htmlFor="description">
