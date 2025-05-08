@@ -59,6 +59,12 @@ const Expenses = () => {
   const formattedTotalBalance = formatCurrency(totalBalance);
 
   // Event handlers
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleAddTransaction();
+    }
+  };
+
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
   };
@@ -75,6 +81,7 @@ const Expenses = () => {
   const handleAddTransaction = () => {
     let finalAmount = amount;
     let finalDescription = description;
+    const numericAmount = parseFloat(finalAmount.replace(",", "."));
 
     // Remove trailing comma or space
     if (finalDescription.endsWith(",") || finalDescription.endsWith(" ")) {
@@ -85,6 +92,11 @@ const Expenses = () => {
     if (finalDescription.length > 20) {
       console.log("Description is too long! Max length is 20 characters.");
       return; // Exit early, don't proceed with adding the transaction
+    }
+
+    if (finalAmount.endsWith("-")) {
+      console.log("Invalid transaction: Amount cannot end with '-'");
+      return; // Exit the function without adding the transaction
     }
 
     if (finalAmount.startsWith("-,")) {
@@ -99,6 +111,11 @@ const Expenses = () => {
 
     if (finalAmount.endsWith(",")) {
       finalAmount = finalAmount.slice(0, -1); // Remove the trailing comma
+    }
+
+    if (numericAmount === 0 || isNaN(numericAmount)) {
+      console.log("Invalid transaction: Amount cannot be 0 or invalid");
+      return;
     }
 
     // Remove unnecessary zero after the comma (e.g., "3000,0" should become "3000")
@@ -246,6 +263,7 @@ const Expenses = () => {
           maxLength={20}
           onChange={handleDescriptionChange}
           placeholder="Example: Birthday gift"
+          onKeyDown={handleKeyDown}
         />
       </div>
       <div className={styles.input_group}>
@@ -259,6 +277,7 @@ const Expenses = () => {
           name="amount"
           onChange={handleAmountChange}
           placeholder="Example: -550,45€"
+          onKeyDown={handleKeyDown}
         />
       </div>
       <BigButton onClick={handleAddTransaction}>💸 Add transaction</BigButton>
