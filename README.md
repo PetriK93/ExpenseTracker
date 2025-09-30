@@ -1,6 +1,6 @@
 # Expense Tracker
 
-![Expense Tracker Logo](./src/assets/expense_tracker_logo.png)
+![Expense Tracker Preview](https://github.com/user-attachments/assets/9c568e16-aec1-4699-9e70-4ebcad598273)
 
 A simple and lightweight **Expense Tracker** built with **React** and **Vite**. Track your income, expenses, and total balance, and save your transaction history as a `.txt` file.
 
