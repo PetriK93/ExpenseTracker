@@ -174,16 +174,20 @@ const Expenses = () => {
 
     // Header
     let content =
-      "========================== \n Description & Amount\n==========================\n\n";
+      "============================ \n\t Transactions\n============================\n\n";
 
     // Transactions
     content += transactions
       .map((tx) => `${tx.description}: ${tx.amount} €`)
       .join("\n");
 
+    content +=
+      "\n\n============================ \n\t Summary\n============================\n";
+
     // Summary
     content += `\n\nTotal Income: ${formattedIncome}\n`;
     content += `Total Expenses: ${formattedExpenses}\n`;
+    content += "============================ \n";
     content += `Total Balance: ${formattedTotalBalance}`;
 
     // Create a Blob and trigger download
@@ -218,7 +222,7 @@ const Expenses = () => {
           <p className={styles.income_amount}>{formattedIncome}</p>
         </div>
         <div className={styles.expense_container}>
-          <h3 className={styles.income_expense}>Expense</h3>
+          <h3 className={styles.income_expense}>Expenses</h3>
           <p className={styles.expense_amount}>{formattedExpenses}</p>
         </div>
       </div>
