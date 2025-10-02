@@ -28,9 +28,9 @@ A simple and lightweight **Expense Tracker** built with **React** and **Vite**. 
 git clone https://github.com/PetriK93/ExpenseTracker.git
 
 
-2. Navigate to the frontend directory:
+2. Navigate to the project directory:
 
-cd ExpenseTracker/frontend
+cd ExpenseTracker
 
 3. Install dependencies:
 
