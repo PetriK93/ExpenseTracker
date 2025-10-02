@@ -1,6 +1,8 @@
 # Expense Tracker
 
-![Expense Tracker Logo](./src/assets/expense_tracker_logo.png)
+[![Preview 1](https://github.com/user-attachments/assets/0626bdaf-2eef-43be-ac64-4e8c03d6e798)](https://github.com/user-attachments/assets/0626bdaf-2eef-43be-ac64-4e8c03d6e798)
+
+[![Preview 2](https://github.com/user-attachments/assets/d9a11a1d-d9db-4ba6-82e5-aca5fad40a5a)](https://github.com/user-attachments/assets/d9a11a1d-d9db-4ba6-82e5-aca5fad40a5a)
 
 A simple and lightweight **Expense Tracker** built with **React** and **Vite**. Track your income, expenses, and total balance, and save your transaction history as a `.txt` file.
 
@@ -37,8 +39,9 @@ npm install
 4. Start the development server:
 
 npm run dev
+```
 
-Usage
+## Usage
 
 Enter a description (max 20 characters) and an amount (use comma for decimals, negative for expenses).
 
@@ -50,7 +53,7 @@ Reset history using Reset history button (with confirmation).
 
 Save all transactions as a .txt file using Save as .txt button.
 
-Tech Stack
+## Tech Stack
 
 React (Functional components + hooks)
 
@@ -60,7 +63,6 @@ CSS Modules for styling
 
 UUID for unique transaction IDs
 
-License
+## License
 
 This project is licensed under the MIT License.
-```
