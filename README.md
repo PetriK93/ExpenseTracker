@@ -43,6 +43,8 @@ npm install
 npm run dev
 ```
 
+---
+
 ## 💻 How to use the app
 
 Enter a description (max 20 characters) and an amount (use comma for decimals, negative for expenses).
@@ -55,6 +57,8 @@ Reset history using Reset history button (with confirmation).
 
 Save all transactions as a .txt file using Save as .txt button.
 
+---
+
 ## 📦 Tech Stack
 
 React (Functional components + hooks)
@@ -64,6 +68,8 @@ Vite (Fast development server + build tool)
 CSS Modules for styling
 
 UUID for unique transaction IDs
+
+---
 
 ## 📝 License
 
